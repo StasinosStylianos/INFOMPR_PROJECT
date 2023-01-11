@@ -52,8 +52,7 @@ def run_encoder_decoder_inference(model: nn.Module, src: torch.Tensor, forecast_
     # Dimension of a batched model input that contains the target sequence values
     target_seq_dim = 0 if batch_first == False else 1
 
-    # Take the last value of thetarget variable in all batches in src and make it tgt
-    # as per the Influenza paper
+    # Take the last value of the target variable in all batches in src and make it tgt as per the Influenza paper
     tgt = src[-1, :, 0] if batch_first == False else src[:, -1, 0] # shape [1, batch_size, 1]
 
     # Change shape from [batch_size] to [1, batch_size, 1]
@@ -76,12 +75,11 @@ def run_encoder_decoder_inference(model: nn.Module, src: torch.Tensor, forecast_
         # Make prediction
         prediction = model(src, tgt, src_mask, tgt_mask) 
 
-        # If statement simply makes sure that the predicted value is 
-        # extracted and reshaped correctly
+        # If statement simply makes sure that the predicted value is extracted and reshaped correctly
         if batch_first == False:
-            # Obtain the predicted value at t+1 where t is the last time step 
-            # represented in tgt
-            last_predicted_value = prediction[-1, :, :] 
+
+            # Obtain the predicted value at t+1 where t is the last time step represented in tgt
+            last_predicted_value = prediction[-1, :, :]
 
             # Reshape from [batch_size, 1] --> [1, batch_size, 1]
             last_predicted_value = last_predicted_value.unsqueeze(0)
@@ -93,8 +91,7 @@ def run_encoder_decoder_inference(model: nn.Module, src: torch.Tensor, forecast_
             # Reshape from [batch_size, 1] --> [batch_size, 1, 1]
             last_predicted_value = last_predicted_value.unsqueeze(-1)
 
-        # Detach the predicted element from the graph and concatenate with 
-        # tgt in dimension 1 or 0
+        # Detach the predicted element from the graph and concatenate with tgt in dimension 1 or 0
         tgt = torch.cat((tgt, last_predicted_value.detach()), target_seq_dim)
     
     # Create masks
@@ -106,5 +103,6 @@ def run_encoder_decoder_inference(model: nn.Module, src: torch.Tensor, forecast_
 
     # Make final prediction
     final_prediction = model(src, tgt, src_mask, tgt_mask)
+    print("The final prediction from the inference is: ", final_prediction.shape)
 
     return final_prediction

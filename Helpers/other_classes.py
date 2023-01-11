@@ -104,7 +104,7 @@ class TransformerDataset(Dataset):
         end_idx = self.indices[index][1]
         sequence = self.data[start_idx:end_idx]
 
-        print("From __getitem__: sequence length = {}".format(len(sequence)))
+        #print("From __getitem__: sequence length = {}".format(len(sequence)))
 
         src, trg, trg_y = self.get_src_trg(sequence=sequence, enc_seq_len=self.enc_seq_len, target_seq_len=self.target_seq_len)
 
