@@ -116,9 +116,9 @@ class TimeSeriesTransformer(nn.Module):
                       using data points from the target sequence
         """
 
+        print("------------------ Start the forward method in Transformer-----------------------")
         print("From model.forward(): Size of src as given to forward(): {}".format(src.size()))
-        print("From model.forward(): tgt size = {}".format(tgt.size()))
-        print("------------------ Start the forward in the transformer----------------------- \n")
+        print("From model.forward(): tgt size = {} \n".format(tgt.size()))
 
         # Pass throguh the input layer right before the encoder
         src = self.encoder_input_layer(src) # src shape: [batch_size, src length, dim_val] regardless of number of input features

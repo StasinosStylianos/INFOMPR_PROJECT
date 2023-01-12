@@ -97,7 +97,7 @@ class TransformerDataset(Dataset):
         2) trg (the decoder input)
         3) trg_y (the target)
         """
-        # Get the first element of the i'th tuple in the list self.indicesasdfas
+        # Get the first element of the i'th tuple in the list self.indices
         start_idx = self.indices[index][0]
 
         # Get the second (and last) element of the i'th tuple in the list self.indices
@@ -107,7 +107,10 @@ class TransformerDataset(Dataset):
         #print("From __getitem__: sequence length = {}".format(len(sequence)))
 
         src, trg, trg_y = self.get_src_trg(sequence=sequence, enc_seq_len=self.enc_seq_len, target_seq_len=self.target_seq_len)
-
+        #print("Source: ", src.shape)
+        #print("Target: ", trg.shape)
+        #print("Label: ", trg_y.shape, "\n")
+  
         return src, trg, trg_y
 
     def get_src_trg(self, sequence: torch.Tensor, enc_seq_len: int, target_seq_len: int): # -> Tuple[torch.tensor, torch.tensor, torch.tensor]
